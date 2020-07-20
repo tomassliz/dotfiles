@@ -1,0 +1,15 @@
+[user]
+	name = Tomas Sliz
+	email = [Add e-mail]
+	signingkey = [Add signing key]
+[commit]
+	gpgsign = true
+[gpg]
+	program = /usr/local/bin/gpg
+[core]
+	excludesfile = /Users/tomassliz/.gitignore_global
+[merge]
+	tool = opendiff
+[mergetool]
+	keepBackup = false
+
