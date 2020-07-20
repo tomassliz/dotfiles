@@ -1,98 +1,74 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+setopt autocd
 
-# Path to your oh-my-zsh installation.
-export ZSH=/Users/Deny/.oh-my-zsh
+# Set GEM_HOME to the local user
+export GEM_HOME=$HOME/.gem
 
-# Set name of the theme to load. Optionally, if you set this to "random"
-# it'll load a random theme each time that oh-my-zsh is loaded.
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="avit"
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion. Case
-# sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(git z)
-
-source $ZSH/oh-my-zsh.sh
-
-# User configuration
-
-# export MANPATH="/usr/local/man:$MANPATH"
-export GEM_HOME=/Users/deny/.gem
-export PATH="$HOME/.fastlane/bin:$GEM_HOME/bin:$PATH"
-export HOMEBREW_GITHUB_API_TOKEN="5edff4c425d479c9332bd33231da0b9ef3cd38cd"
-
-. `brew --prefix`/etc/profile.d/z.sh
-
-# You may need to manually set your language environment
-export LANG=en_US.UTF-8
-
+# Set GOPATH
 export GOPATH=$HOME/Developer/go
-export GOROOT=/usr/local/Cellar/go/1.10.3/libexec
 
-export PATH=$PATH:$GOPATH/bin
-export PATH=$PATH:$GOROOT/bin
+# If you come from bash you might have to change your $PATH.
+export PATH=$GEM_HOME/bin:$GOPATH/bin:/usr/local/bin:/usr/local/sbin:$PATH
 
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+# Aliases
+alias online="cd ~/Developer/Cleverlance/skoda-auto/connect-sdk-onlinecar-sdk-ios && open OnlineCar.xcodeproj && gfa && gst"
+alias garage="cd ~/Developer/Cleverlance/skoda-auto/connect-garage-ios && open Garage.xcodeproj && gfa && gst"
 
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
+alias lsa="ls -al"
 
-# ssh
-# export SSH_KEY_PATH="~/.ssh/rsa_id"
+alias gst="git status"
+alias gfa="git fetch --all"
+alias gco="git checkout"
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-alias countlines="find . -type f -exec wc -l {} + | sort -n"
-alias finddelegateusage="grep -rnw . -e \"UIApplication.shared.delegate\""
+alias tmux="tmux -f ~/.config/tmux/.tmux.conf"
+
+export LC_ALL=en_US.UTF-8
+
+fpath+=${ZDOTDIR:-~}/.zsh_functions
+
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'r:|=*' 'l:|=* r:|=*'
+zstyle ':completion:*' use-cache yes
+
+export EDITOR='vim'
+
+autoload -U compinit
+compinit
+
+autoload -U colors && colors
+
+# Disable unused vcs systems
+zstyle ':vcs_info:*' disable bzr cdv cvs darcs fossil hg mtn p4 svk svn tla
+
+# Load version control information
+autoload -Uz vcs_info
+precmd() { vcs_info }
+
+# Format the vcs_info_msg_0_ variable
+zstyle ':vcs_info:git:*' formats 'on %F{cyan}%b%f'
+
+# Set up the prompt (with git branch name)
+setopt PROMPT_SUBST
+PROMPT='%{$fg_bold[green]%}%2~%{$reset_color%} ${vcs_info_msg_0_}
+> '
+
+# Search history for existing entry
+# Takes the cursor to the end of the line after moving in the history
+autoload -U history-search-end
+zle -N history-beginning-search-backward-end history-search-end
+zle -N history-beginning-search-forward-end history-search-end
+bindkey "^[[A" history-beginning-search-backward-end
+bindkey "^[[B" history-beginning-search-forward-end
+
+# Enable Vim mode in ZSH
+bindkey -v
+
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey '^E' edit-command-line                   # Opens Vim to edit current command line
+bindkey '^R' history-incremental-search-backward # Perform backward search in command line history
+bindkey '^S' history-incremental-search-forward  # Perform forward search in command line history
+bindkey '^P' history-search-backward             # Go back/search in history (autocomplete)
+bindkey '^N' history-search-forward              # Go forward/search in history (autocomplete)
+
+# Enable Nord color theme for all sessions
+export CLICOLOR=1
