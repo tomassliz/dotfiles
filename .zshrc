@@ -21,6 +21,8 @@ alias gco="git checkout"
 
 alias tmux="tmux -f ~/.config/tmux/.tmux.conf"
 
+alias carthage-reset="rm -rf ~/Library/Caches/org.carthage.CarthageKit"
+
 export LC_ALL=en_US.UTF-8
 
 fpath+=${ZDOTDIR:-~}/.zsh_functions
