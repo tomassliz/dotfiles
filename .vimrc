@@ -1,3 +1,8 @@
+set nocompatible
+filetype plugin on
+
+let maplocalleader="\<space>"
+
 " Code Highlighting
 syntax on
 
