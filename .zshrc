@@ -10,14 +10,12 @@ export GOPATH=$HOME/Developer/go
 export PATH=$GEM_HOME/bin:$GOPATH/bin:/usr/local/bin:/usr/local/sbin:$PATH
 
 # Aliases
-alias online="cd ~/Developer/Cleverlance/skoda-auto/connect-sdk-onlinecar-sdk-ios && open OnlineCar.xcodeproj && gfa && gst"
-alias garage="cd ~/Developer/Cleverlance/skoda-auto/connect-garage-ios && open Garage.xcodeproj && gfa && gst"
-
 alias lsa="ls -al"
 
 alias gst="git status"
 alias gfa="git fetch --all"
 alias gco="git checkout"
+alias gcmsg="git commit -m"
 
 alias tmux="tmux -f ~/.config/tmux/.tmux.conf"
 
