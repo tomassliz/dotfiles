@@ -1,7 +1,3 @@
-[user]
-	name = Tomas Sliz
-	email = [Add e-mail]
-	signingkey = [Add signing key]
 [commit]
 	gpgsign = true
 [gpg]
@@ -12,4 +8,9 @@
 	tool = opendiff
 [mergetool]
 	keepBackup = false
+
+[includeIf "gitdir:~/Developer/"]
+    path = ~/.gitconfig_per
+[includeIf "gitdir:~/Developer/Cleverlance/"]
+    path = ~/.gitconfig_clv
 
